@@ -432,27 +432,27 @@ class PIMP(object):
 
         if method == "normal":
             for curr_feat in range(0, n_feats):
-                pvals[curr_feat] = self._norm_pval(self.feature_importances_[curr_feat],
+                pvals[curr_feat], curr_dist = self._norm_pval(self.feature_importances_[curr_feat],
                                                    means_norm[curr_feat],
                                                    stds_norm[curr_feat], two_sided=two_sided, logp=logp)
 
         elif method == "lognormal":
             for curr_feat in range(0, n_feats):
-                pvals[curr_feat] = self._lognorm_pval(self.feature_importances_[curr_feat],
+                pvals[curr_feat], curr_dist = self._lognorm_pval(self.feature_importances_[curr_feat],
                                                       self.permuted_feature_importances_[:, curr_feat],
                                                       stds_lnorm[curr_feat],
                                                       means_lnorm[curr_feat], two_sided=two_sided, logp=logp)
 
         elif method == "gamma":
             for curr_feat in range(0, n_feats):
-                pvals[curr_feat] = self._gamma_pval(self.feature_importances_[curr_feat],
+                pvals[curr_feat], curr_dist = self._gamma_pval(self.feature_importances_[curr_feat],
                                                     self.permuted_feature_importances_[:, curr_feat],
                                                     shape_gamma[curr_feat],
                                                     scale_gamma[curr_feat], two_sided=two_sided, logp=logp)
 
         if method == "nonpar":
             for curr_feat in range(0, n_feats):
-                pvals[curr_feat] = self._nonpar_pval(self.feature_importances_[curr_feat],
+                pvals[curr_feat], curr_dist = self._nonpar_pval(self.feature_importances_[curr_feat],
                                                      self.permuted_feature_importances_[:, curr_feat],
                                                      two_sided=two_sided,
                                                      logp=logp)
