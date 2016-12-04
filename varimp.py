@@ -586,11 +586,11 @@ class PIMP(object):
 
     def _nonpar_pval(self, imp, rnd, two_sided=True, logp=False):
         # One-sided p-value (upper tail)
-        pv = sum(rnd >= imp) / float(len(rnd))
+        pv = (sum(rnd >= imp)+1) / float(len(rnd)+1)
 
         # If two-sided is requested, get the lower tail as well
         if two_sided:
-            pv = min(pv, sum(rnd <= imp) / float(len(rnd)))
+            pv = min(pv, ((sum(rnd <= imp)+1) / float(len(rnd)+1)))
 
         # Transform to -log10(p-value)
         if logp:
@@ -631,7 +631,7 @@ class PIMP(object):
 
     def _gamma_pval(self, imp, rnd, shape, scale, two_sided=True, logp=False):
         if np.isnan(shape + scale):  # parameters could not be estimated
-            return self._nonpar_pval(imp, rnd, two_sided=two_sided, logp=logp), "nonpar"
+            return self._nonpar_pval(imp, rnd, two_sided=two_sided, logp=logp)
         else: # gamma fitting
             # One-sided p-value (upper tail)
             pv = 1 - stats.gamma.cdf(imp, shape, scale=scale)
